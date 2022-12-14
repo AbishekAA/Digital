@@ -1,8 +1,14 @@
 
 <?php
-  $con3 = mysqli_connect('localhost','root','','digital_contract');
-  
-  if ($con3->connect_error) {
-    die("Connection failed: " . $con3->connect_error."<br>");
-  }
+$server = 'localhost';
+$user='root';
+$pass='';
+$database ='hrms';
+
+$conn =mysqli_connect($server,$user,$pass,$database);
+
+if(!$conn){
+    echo "<script>alert('Connection Failed')</script>";
+}
+
 ?>
