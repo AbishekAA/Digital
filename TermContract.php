@@ -395,8 +395,8 @@ $pdf->Output();
                         <ul class="sub-menu children dropdown-menu">                            
                             <li><i class="fa fa-puzzle-piece"></i><a href="employee.php">Wages Contract</a></li>
                             <li><i class="fa fa-id-badge"></i><a href="employee.php">Salaried Contract</a></li>
-                            <li><i class="fa fa-bars"></i><a href="employee.php">As and When Basis Contract</a></li>
-                            <li><i class="fa fa-bars"></i><a href="employee.php">Term Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="whenbasiscontract.php">As and When Basis Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="TermContract.php">Term Contract</a></li>
 
                         </ul>
                     </li>
@@ -408,7 +408,23 @@ $pdf->Output();
                             <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Tabs</a></li>
 
                             <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Cards</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Aler
+                                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            ts</a></li>
                             <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Progress Bars</a></li>
                             <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
                             <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
