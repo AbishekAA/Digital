@@ -33,9 +33,38 @@ if(isset($_POST['registerBtn'])){
     $marital_status	= $_POST['marital_status']; 
    
 //pdf start
+class PDF extends FPDF{
+    
+    function Header(){
+      //Display Header Content, if page number eqaul 1
+      if ($this->PageNo() == 1 ) {
+        
+        //Header Content
+        $this->Image('C:\Users\abishek.prasad\Videos\elaadmin-master\elaadmin-master\assets\images\Motors.png',0,0);
 
-$pdf = new FPDF('P','mm','A4');
+        // $this->Line(0,30,210,30);
+      
+      }
+    }
 
+    function Footer()
+    {
+        $this->SetY(-15);
+        $this->SetFont('Arial','I',8);
+        //Page number
+        $pagenumber = '{nb}';
+        if($this->PageNo() == $pagenumber){
+            $this->Cell(173,10, ' FOOTER TEST  -  '.$pagenumber, 0, 0);
+        }
+    }
+
+    
+
+}
+$pdf = new PDF();
+
+$pdf->SetMargins(10,60,10);
+$pdf->AliasNbPages();
 $pdf->AddPage();
 
 

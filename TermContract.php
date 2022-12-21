@@ -33,8 +33,50 @@ if(isset($_POST['registerBtn'])){
     $marital_status	= $_POST['marital_status']; 
    
 //pdf start
-$pdf = new FPDF('P','mm','A4');
 
+class PDF extends FPDF{
+    
+    function Header(){
+      //Display Header Content, if page number eqaul 1
+      if ($this->PageNo() == 1 ) {
+        
+        //Header Content
+        $this->Image('C:\Users\abishek.prasad\Music\DIGITAL FINAL\Digital\assets\images\Finance.png',0,0);
+
+        // $this->Line(0,30,210,30);
+      
+      }
+    }
+
+    function Footer()
+    {
+        $this->SetY(-15);
+        $this->SetFont('Arial','I',8);
+        //Page number
+        $pagenumber = '{nb}';
+        if($this->PageNo() == $pagenumber){
+            $this->Cell(173,10, ' FOOTER TEST  -  '.$pagenumber, 0, 0);
+        }
+    }
+
+    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+$pdf = new PDF();
+
+$pdf->SetMargins(10,60,10);
+$pdf->AliasNbPages();
 $pdf->AddPage();
 
 
@@ -408,23 +450,7 @@ $pdf->Output();
                             <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Tabs</a></li>
 
                             <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Cards</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Aler
-                                
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            ts</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
                             <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Progress Bars</a></li>
                             <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
                             <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
