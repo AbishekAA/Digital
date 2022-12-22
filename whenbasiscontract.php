@@ -31,22 +31,52 @@ if(isset($_POST['registerBtn'])){
     $status = ' ';
     $gender = $_POST['gender']; 
     $marital_status	= $_POST['marital_status']; 
+    $how=$_POST['hoursofwork'];
+    $lunch=$_POST['lunch'];
+    global $head;
+    if($department == 'Carpenters Finance'){
+        $head ="assets\images\Finance.png";
+    }else if($department == 'Carpenters HO'){
+        $head="assets\images\Finance.png";
+    }else if($department == 'Carpenters Motors'){
+        $head="assets\images\Motors.png";
+    }else if($department == 'Carpenters Shipping'){
+        $head='assets\images\Shipping.png';
+    }else if($department == 'IMEL'){
+        $head="assets\images\IMEL.png";
+    }else if($department == 'MH'){
+        $head="assets\images\MH.png";   
+    }else if($department == 'Carpenters Waters'){
+        $head="assets\images\Waters.png";
+    }else if($department == 'Carpenters Properties'){
+        $head="assets\images\Properties.png";
+    }else if($department == 'Carptrac'){
+        $head="assets\images\Carptrac.png";
+    }else if($department == 'One Stop Trading'){
+        $head="assets\images\One Stop Trading.png";
+    }
    
 //pdf start
 class PDF extends FPDF{
     
     function Header(){
+        global $head;
       //Display Header Content, if page number eqaul 1
       if ($this->PageNo() == 1 ) {
         
         //Header Content
-        $this->Image('C:\Users\abishek.prasad\Videos\elaadmin-master\elaadmin-master\assets\images\Motors.png',0,0);
+        $this->Image($head,0,0);
 
         // $this->Line(0,30,210,30);
       
       }
-    }
+      else{
 
+      }
+      if (!$this->skipHeader) {
+        // ...
+    }
+    }
     function Footer()
     {
         $this->SetY(-15);
@@ -444,21 +474,24 @@ $pdf->Output();
 <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="index.php"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                    </li>
+                    <li class="active">
+                        <a href="display.php"><i class="menu-icon fa fa-laptop"></i>Employees </a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Digital Contracts</a>
                         <ul class="sub-menu children dropdown-menu">                            
-                            <li><i class="fa fa-puzzle-piece"></i><a href="employee.php">Wages Contract</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="employee.php">Salaried Contract</a></li>
-                            <li><i class="fa fa-bars"></i><a href="employee.php">As and When Basis Contract</a></li>
-                            <li><i class="fa fa-bars"></i><a href="employee.php">Term Contract</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="WagesContract.php">Wages Contract</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="salariedcontract.php">Salaried Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="whenbasiscontract.php">As and When Basis Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="TermContract.php">Term Contract</a></li>
 
                         </ul>
                     </li>
-                
+                   
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -651,17 +684,52 @@ $pdf->Output();
                             <div class="form-group">
                                 <label>Department</label>
                                 <div class="input-group mb-3">
-                                    <select class="custom-select" name="gender" id="inputGroupSelect02">
+                                    <select class="custom-select" name="department" id="inputGroupSelect02">
                                         <option selected>Choose...</option>
                                         <option value="Carpenters Finance">Carpenters Finance</option>
                                         <option value="Carpenters Ho">Carpenters HO</option>
                                         <option value="Carpenters Motors">Carpenters Motors</option>
                                         <option value="Carpenters Shipping">Carpenters Shipping</option>
+                                        <option value="IMEL">IMEL</option>  
+                                        <option value="MH">MH</option>
+                                        <option value="Carpenters Waters">Carpenters Waters</option>
+                                        <option value="Carpenters Properties">Carpenters Properties</option>
+                                        <option value="Carptrac">Carptrac</option>
+                                        <option value="One Stop Trading">One Stop Trading</option>
                                     </select>
  
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label>Hours Of Work</label>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" name="hoursofwork" id="inputGroupSelect02">
+                                        <option selected>Choose...</option>
+                                        <option value="40">40</option>
+                                        <option value="42.5">42.5</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46.5">46.5</option>
+                                        <option value="48">48</option>
+                                       
+                                    </select>
+ 
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lunch duration:</label>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" name="lunch" id="inputGroupSelect02">
+                                        <option selected>Choose...</option>
+                                        <option value="1/2 hour">1/2 hour</option>
+                                        <option value="1 hour">1 hour</option>
+                                        
+                                    </select>
+ 
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label>Marital Status</label>
                                 <div class="input-group mb-3">

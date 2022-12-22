@@ -31,21 +31,52 @@ if(isset($_POST['registerBtn'])){
     $status = ' ';
     $gender = $_POST['gender']; 
     $marital_status	= $_POST['marital_status']; 
+    $how=$_POST['hoursofwork'];
+    $lunch=$_POST['lunch'];
+    global $head;
+    if($department == 'Carpenters Finance'){
+        $head ="assets\images\Finance.png";
+    }else if($department == 'Carpenters HO'){
+        $head="assets\images\Finance.png";
+    }else if($department == 'Carpenters Motors'){
+        $head="assets\images\Motors.png";
+    }else if($department == 'Carpenters Shipping'){
+        $head='assets\images\Shipping.png';
+    }else if($department == 'IMEL'){
+        $head="assets\images\IMEL.png";
+    }else if($department == 'MH'){
+        $head="assets\images\MH.png";   
+    }else if($department == 'Carpenters Waters'){
+        $head="assets\images\Waters.png";
+    }else if($department == 'Carpenters Properties'){
+        $head="assets\images\Properties.png";
+    }else if($department == 'Carptrac'){
+        $head="assets\images\Carptrac.png";
+    }else if($department == 'One Stop Trading'){
+        $head="assets\images\One Stop Trading.png";
+    }
    
 //pdf start
 
 class PDF extends FPDF{
     
     function Header(){
+        global $head;
       //Display Header Content, if page number eqaul 1
       if ($this->PageNo() == 1 ) {
         
         //Header Content
-        $this->Image('C:\Users\abishek.prasad\Music\DIGITAL FINAL\Digital\assets\images\Finance.png',0,0);
+        $this->Image($head,0,0);
 
         // $this->Line(0,30,210,30);
       
       }
+      else{
+
+      }
+      if (!$this->skipHeader) {
+        // ...
+    }
     }
 
     function Footer()
@@ -136,7 +167,7 @@ $pdf->SetFont('Arial','B',11);
 $pdf->Cell(40,5,'Termination:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'We will issue you a 24 hours termination notice should we find your','',0,'L');$pdf->Ln();
 $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'services unsatisfactory during this period.','',0,'L');$pdf->Ln();$pdf->Ln();
 $pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Wage:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'Your wage will be $3.28 per hour.','',0,'L');$pdf->Ln();$pdf->Ln();
+$pdf->Cell(40,5,'Wage:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"Your wage will be $wages per hour.",'',0,'L');$pdf->Ln();$pdf->Ln();
 // $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'services unsatisfactory during this period.','',0,'L');$pdf->Ln();$pdf->Ln();
 $pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,'Reporting:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"You will Report to $reporting ",'',0,'L');$pdf->Ln();$pdf->Ln();
 
@@ -149,10 +180,8 @@ $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'to us
 $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'doing so.','',0,'L');$pdf->Ln();$pdf->Ln();
 
 $pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Hours Of Work:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(60,5,'You will be required to work from -','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Monday - Friday	:  8.00 am to 5.00 pm','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Saturday                      :  8.00 am to 1.00 pm','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Lunch			:  1 hour','',0,'L');$pdf->Ln();$pdf->Ln();$pdf->Ln();
+$pdf->Cell(40,5,'Hours of Work:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(20,5,"You will be required to work $how hours per week on a shift basis with $lunch lunch break.",'',0,'L');$pdf->Ln();$pdf->Ln();$pdf->Ln();
+
 $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'The nature and status of your work is such that you may be required','',0,'L');$pdf->Ln();
 $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'to work longer hours and on Saturdays, Sundays and Public Holidays','',0,'L');$pdf->Ln();
 $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'from time-to-time depending on the requirements of Management.','',0,'L');$pdf->Ln();$pdf->Ln();
@@ -428,89 +457,26 @@ $pdf->Output();
 <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="index.php"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                    </li>
+                    <li class="active">
+                        <a href="display.php"><i class="menu-icon fa fa-laptop"></i>Employees </a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Digital Contracts</a>
                         <ul class="sub-menu children dropdown-menu">                            
-                            <li><i class="fa fa-puzzle-piece"></i><a href="employee.php">Wages Contract</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="employee.php">Salaried Contract</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="WagesContract.php">Wages Contract</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="salariedcontract.php">Salaried Contract</a></li>
                             <li><i class="fa fa-bars"></i><a href="whenbasiscontract.php">As and When Basis Contract</a></li>
                             <li><i class="fa fa-bars"></i><a href="TermContract.php">Term Contract</a></li>
 
                         </ul>
                     </li>
-                    <li class="menu-title">UI elements</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Components</a>
-                        <ul class="sub-menu children dropdown-menu">                            <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Buttons</a></li>
-                            <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Badges</a></li>
-                            <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Tabs</a></li>
-
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Cards</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Progress Bars</a></li>
-                            <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
-                            <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
-                            <li><i class="fa fa-th"></i><a href="ui-grids.html">Grids</a></li>
-                            <li><i class="fa fa-file-word-o"></i><a href="ui-typgraphy.html">Typography</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tables</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="tables-basic.html">Basic Table</a></li>
-                            <li><i class="fa fa-table"></i><a href="tables-data.html">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-title">Icons</li><!-- /.menu-title -->
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Font Awesome</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Themefy Icons</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                            <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Maps</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">Google Maps</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-title">Extras</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">Login</a></li>
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-register.html">Register</a></li>
-                            <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">Forget Pass</a></li>
-                        </ul>
-                    </li>
+                   
                 </ul>
+                
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
@@ -524,7 +490,109 @@ $pdf->Output();
 
 <!-- Right Panel -->
   <div id="right-panel" class="right-panel">
+  <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./"><img src="images/carp.png" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <div class="form-inline">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>
 
+                        <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">3</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="notification">
+                                <p class="red">You have 3 Notification</p>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-check"></i>
+                                    <p>Server #1 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-info"></i>
+                                    <p>Server #2 overloaded.</p>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-warning"></i>
+                                    <p>Server #3 overloaded.</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                <span class="count bg-primary">4</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <p class="red">You have 4 Mails</p>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jonathan Smith</span>
+                                        <span class="time float-right">Just now</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jack Sanders</span>
+                                        <span class="time float-right">5 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Cheryl Wheeler</span>
+                                        <span class="time float-right">10 minutes ago</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Rachel Santos</span>
+                                        <span class="time float-right">15 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
+
+                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+
+                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
 <div class="wrapper">
     <div class="title">
       <!-- Contract Form -->
@@ -600,17 +668,52 @@ $pdf->Output();
                             <div class="form-group">
                                 <label>Department</label>
                                 <div class="input-group mb-3">
-                                    <select class="custom-select" name="gender" id="inputGroupSelect02">
+                                    <select class="custom-select" name="department" id="inputGroupSelect02">
                                         <option selected>Choose...</option>
                                         <option value="Carpenters Finance">Carpenters Finance</option>
                                         <option value="Carpenters Ho">Carpenters HO</option>
                                         <option value="Carpenters Motors">Carpenters Motors</option>
                                         <option value="Carpenters Shipping">Carpenters Shipping</option>
+                                        <option value="IMEL">IMEL</option>  
+                                        <option value="MH">MH</option>
+                                        <option value="Carpenters Waters">Carpenters Waters</option>
+                                        <option value="Carpenters Properties">Carpenters Properties</option>
+                                        <option value="Carptrac">Carptrac</option>
+                                        <option value="One Stop Trading">One Stop Trading</option>
                                     </select>
  
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label>Hours Of Work</label>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" name="hoursofwork" id="inputGroupSelect02">
+                                        <option selected>Choose...</option>
+                                        <option value="40">40</option>
+                                        <option value="42.5">42.5</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46.5">46.5</option>
+                                        <option value="48">48</option>
+                                       
+                                    </select>
+ 
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lunch duration:</label>
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" name="lunch" id="inputGroupSelect02">
+                                        <option selected>Choose...</option>
+                                        <option value="1/2 hour">1/2 hour</option>
+                                        <option value="1 hour">1 hour</option>
+                                        
+                                    </select>
+ 
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label>Marital Status</label>
                                 <div class="input-group mb-3">
