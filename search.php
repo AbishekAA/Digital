@@ -1,8 +1,8 @@
 <?php
-	$servername = "localhost";
-	$username = "root";
-	$password = "A6(kF)u0muVyNo@A";
-	$databasename = "hrms";
+	$servername = 'localhost';
+	$username='root';
+	$password='';
+	$databasename ='hrms';
 	// CREATE CONNECTION
 	$conn = mysqli_connect($servername,	$username, $password, $databasename);
 // GET CONNECTION ERRORS
