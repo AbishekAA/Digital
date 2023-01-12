@@ -108,15 +108,15 @@
             <div class="top-right">
                 <div class="header-menu">
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <!-- <button class="search-trigger"><i class="fa fa-search"></i></button>
                         <div class="form-inline">
                             <form class="search-form">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
-                        </div>
+                        </div> -->
 
-                        <div class="dropdown for-notification">
+                        <!-- <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
                                 <span class="count bg-danger">3</span>
@@ -136,7 +136,7 @@
                                     <p>Server #3 overloaded.</p>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="dropdown for-message">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -207,78 +207,86 @@
             <div class="animated fadeIn">
                 <!-- Widgets  -->
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card text-white bg-flat-color-1">
                             <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-1">
-                                        <i class="pe-7s-cash"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text">$<span class="count">23569</span></div>
-                                            <div class="stat-heading">Revenue</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="card-left pt-1 float-left">
+                                    <h3 class="mb-0 fw-r">
+                                        <span class="currency float-left mr-1"></span>
+                                        <span class="count">10</span>
+                                    </h3>
+                                    <p class="text-light mt-1 m-0">Divisions</p>
+                                </div><!-- /.card-left -->
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-2">
-                                        <i class="pe-7s-cart"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">3435</span></div>
-                                            <div class="stat-heading">Sales</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="card-right float-right text-right">
+                                    <i class="icon fade-5 icon-lg pe-7s-cart"></i>
+                                </div><!-- /.card-right -->
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-3">
-                                        <i class="pe-7s-browser"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">349</span></div>
-                                            <div class="stat-heading">Templates</div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-4">
-                                        <i class="pe-7s-users"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">2986</span></div>
-                                            <div class="stat-heading">Clients</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
+                    <!--/.col-->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card text-white bg-flat-color-6">
+                            <div class="card-body">
+                                <div class="card-left pt-1 float-left">
+                                    <h3 class="mb-0 fw-r">
+                                        <span class="count float-left">5 </span>
+                                        <span>.</span>
+                                    </h3>
+                                    <p class="text-light mt-1 m-0">Leaves Applied</p>
+                                </div><!-- /.card-left -->
+
+                                <div class="card-right float-right text-right">
+                                    <div id="flotBar1" class="flotBar1"></div>
+                                </div><!-- /.card-right -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--/.col-->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card text-white bg-flat-color-3">
+                            <div class="card-body">
+                                <div class="card-left pt-1 float-left">
+                                    <h3 class="mb-0 fw-r">
+                                        <span class="count">6569</span>
+                                    </h3>
+                                    <p class="text-light mt-1 m-0">Total clients</p>
+                                </div><!-- /.card-left -->
+
+                                <div class="card-right float-right text-right">
+                                    <i class="icon fade-5 icon-lg pe-7s-users"></i>
+                                </div><!-- /.card-right -->
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--/.col-->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card text-white bg-flat-color-2">
+                            <div class="card-body">
+                                <div class="card-left pt-1 float-left">
+                                    <h3 class="mb-0 fw-r">
+                                        <span class="count">1490</span>
+                                    </h3>
+                                    <p class="text-light mt-1 m-0">New users</p>
+                                </div><!-- /.card-left -->
+
+                                <div class="card-right float-right text-right">
+                                    <div id="flotLine1" class="flotLine1"></div>
+                                </div><!-- /.card-right -->
+
+                            </div>
+
+                        </div>
+                    </div>
                 <!-- /Widgets -->
                 <!--  Traffic  -->
                
@@ -291,7 +299,70 @@
             <!-- .animated -->
         </div>
         <!-- /.content -->
-        <div class="clearfix"></div>
+        <div class="clearfix">
+        <div class="wrapper">
+		<h1>Employees By Division</h1>
+		<!-- <div id="search-bar">
+			<label>Search :</label>
+			<input type="text" id="search_text" autocomplete="off">
+		</div> -->
+		<br>
+		<table class='table' id="table-data">	
+			<thead>
+				<tr>
+					<th>Department</th>
+					<th>Count</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+                 
+             
+
+					$servername = 'localhost';
+					$username='root';
+					$password='';
+					$databasename ='hrms';
+
+					// CREATE CONNECTION
+					$conn = mysqli_connect($servername,
+						$username, $password, $databasename);
+
+					// GET CONNECTION ERRORS
+					if (!$conn) {
+						die("Connection failed: " . mysqli_connect_error());
+					}
+
+
+        $sql = "SELECT location, COUNT(*) 
+        FROM employees 
+        GROUP BY location";
+        $res_data = mysqli_query($conn,$sql);
+					
+					if (mysqli_num_rows($res_data) > 0) {
+						// OUTPUT DATA OF EACH ROW
+						while($row = mysqli_fetch_assoc($res_data)) {
+							echo 
+							"<tr>
+								
+								<td>" . $row["location"] . "</td>
+								<td>" . $row["COUNT(*)"] . "</td>
+								
+								
+							</tr>";
+						}
+					} else {
+						echo "0 results";
+					}
+					$conn->close();
+					
+				?>
+			</tbody>
+		</table>
+      
+
+        </div>
         <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-inner bg-white">

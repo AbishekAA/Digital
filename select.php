@@ -1,3 +1,7 @@
+<?php
+session_start(); 
+
+?>
 <!doctype html>
 	<head>
 		<meta charset="utf-8">
@@ -178,8 +182,10 @@
         </header>
 		<br>
 		<?php
+		
 			if(isset($_GET["masterid"])){
 				$masterid = $_GET["masterid"];
+				$_SESSION['masterid'] = $masterid;
 				$servername = 'localhost';
 					$username='root';
 					$password='';
@@ -195,10 +201,12 @@
 				}
 
 				// SQL QUERY
-				$query = "SELECT * FROM `employees` WHERE masterid=$masterid";
+				$final_master=str_replace("'",' ',$masterid);
+				$query = "SELECT * FROM `employees` WHERE masterid=$final_master";
 				// FETCHING DATA FROM DATABASE
 				$result = mysqli_query($conn, $query);
 				$row = mysqli_fetch_array($result);
+				
 			}
 		?>
 		
@@ -287,69 +295,65 @@
 		<br>
 		<br>
 		<br>
-		<form class="row g-3">			
-			<legend>Employee Documents</legend>
-			<?php
-			if(isset($_GET["masterid"])){
-				$servername = 'localhost';
-					$username='root';
-					$password='';
-					$databasename ='hrms';
+		<?php
+		$final_master=str_replace("'",' ',$masterid);
+// echo $final_master;		
+$sql = "SELECT * FROM dms WHERE masterid ='$final_master' ";
+$result = mysqli_query($conn,$sql);
+?>
 
-					// CREATE CONNECTION
-					$conn = mysqli_connect($servername,
-						$username, $password, $databasename);;
+<table class='table table-hover' id="table-data" >
+	<thead>
+	<tr>
+		<td>Description</td>
+		<td>Path</td>
+		<td>Download</td>
+	</tr>
+	</thead>
+<?php	
 
-				// CREATE CONNECTION
-				$conn = mysqli_connect($servername,
-					$username, $password, $databasename);
 
-				// GET CONNECTION ERRORS
-				if (!$conn) {
-					die("Connection failed: " . mysqli_connect_error());
-				}
+while($row = mysqli_fetch_array($result)) 
+{
+	$path = $row['url'];
+?>
+	<tbody>
+		
+	<tr>
+		<td><?php echo $row['type']; ?></td>
+		<td><?php echo $path; ?></td>
+		<td><p><a href="download.php?path=<?php echo $row['url'];?>">Download</a></p>
+</td>
+		
+	</tr>
+	</tbody>
+	
+			
 
-				// SQL QUERY
-				$query = "SELECT * FROM `dms` WHERE masterid=$masterid";
-				// FETCHING DATA FROM DATABASE
-				$result = mysqli_query($conn, $query);
-				if (mysqli_num_rows($result) > 0) {
-						// OUTPUT DATA OF EACH ROW
-						while($row = mysqli_fetch_assoc($result)) {
-							echo '<div class="col-md-6">
-							<fieldset disabled>
+<?php
+}
+?>
+</table>
+<form action='upload.php?masterid=<?php echo $row['masterid']; ?>' method="post" enctype="multipart/form-data" class="row g-3">
+<legend>Employee Documents</legend>
+<div class="col-md-6">
 							<label for="type" class="form-label">Document Description</label>
-							<input type="text" id="type" class="form-control" placeholder="<?php echo $row["type"]; ?>">
-							</fieldset>
+							<input type="text" id="type" class="form-control" name='desc'>
 							</div>
 							<div class="col-md-6">
-							<fieldset disabled>
-							<label for="url" class="form-label">Document</label>
-							<input type="text" id="url" class="form-control" placeholder="<?php echo $row["url"]; ?>">
-							</fieldset>
-							</div>';							
-						}
-					} else {
-						echo '<div class="col-md-6">
-							<label for="type" class="form-label">Document Description</label>
-							<input type="text" id="type" class="form-control">
-							</div>
-							<div class="col-md-6">
-							<label for="url" class="form-label">Browse to Upload</label>
-							<input type="text" id="url" class="form-control">
+							
+							
+							<label for="url" class="form-label">Select File to Upload</label>
+							<input type="file" name="file" />
 							</div>
 							<br>
-							<br>';
-							echo '<div class="col-md-3">
-							<a class="btn btn-primary btn-lg" href="upload.php?masterid='.$row["masterid"].'">Upload</a>
-							</div>';
-					}
-					$conn->close();
-					
-			}
-		?>
-		  
-		</form>
+							<br>
+
+<button type="submit" class="btn btn-primary btn-lg" name="upload">upload</button>
+</form>
+			
+		
+		<!-- </form> -->
 		
 	</body>
 </html>

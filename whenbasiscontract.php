@@ -15,7 +15,8 @@ if(isset($_POST['registerBtn'])){
     $current=date("d/m/Y");
     $year=date("Y");
     $id  = $_POST['id']; 
-    $name= $_POST['name'];
+    $fname= $_POST['fname'];
+    $lname= $_POST['lname'];
     $address = $_POST['address'];
     $fnpf = $_POST['fnpf'];
     $tin = $_POST['tin'];
@@ -158,7 +159,7 @@ $pdf->Cell(34	,5,'',0,1);//end of line
 
 $pdf->Ln();//end of line
 
-$pdf->Cell(130	,5,"Dear $name",0,0);
+$pdf->Cell(130	,5,"Dear $fname $lname",0,0);
 $pdf->Cell(34	,5,'',0,1);//end of line
 
 $pdf->Cell(189	,10,'',0,1);//end of line
@@ -339,6 +340,28 @@ $pdf->Output();
     //     echo "<script>alert('Username already Exists')</script>";
     //     header('Location:users.php');
     // }
+
+    //API
+    $final_position=str_replace("_",' ',$position);
+    $final_dob=str_replace(".",'/',$dob);
+    $curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/0002/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => array(
+    "cache-control: no-cache"
+  ),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+$masterid=$response;
+echo $response;
+curl_close($curl);
     
 
 }
@@ -625,8 +648,12 @@ $pdf->Output();
                                 <input type="text" name='id' class="form-control" placeholder="Enter Master ID">
                             </div>
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name='name' class="form-control" placeholder="Enter Employee Name">
+                                <label>Surname</label>
+                                <input type="text" name='lname' class="form-control" placeholder="Enter Employee Surname">
+                            </div>
+                            <div class="form-group">
+                                <label>First name</label>
+                                <input type="text" name='fname' class="form-control" placeholder="Enter Employee First Name">
                             </div>
                             <div class="form-group">
                                 <label>FNPF NO</label>
