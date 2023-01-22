@@ -74,9 +74,6 @@ class PDF extends FPDF{
       else{
 
       }
-      if (!$this->skipHeader) {
-        // ...
-    }
     }
     function Footer()
     {
