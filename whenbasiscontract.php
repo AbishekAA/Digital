@@ -9,14 +9,22 @@ require('fpdf.php');
 // $sql = "SELECT * FROM employees WHERE id='{$_SESSION['id']}'";
 // $result = mysqli_query($con3,$sql);
 // $row = mysqli_fetch_assoc($result);
-if(isset($_POST['registerBtn'])){
-    $date=date("d");
-    $month=date("M");
-    $current=date("d/m/Y");
-    $year=date("Y");
-    $id  = $_POST['id']; 
-    $fname= $_POST['fname'];
-    $lname= $_POST['lname'];
+if (isset($_POST['registerBtn'])) {
+
+    $server = 'localhost';
+    $user='root';
+    $pass='';
+    $database ='hrms';
+    
+    $conn =mysqli_connect($server,$user,$pass,$database);
+    
+    $date = date("d");
+    $month = date("M");
+    $current = date("d/m/Y");
+    $year = date("Y");
+    $id = $_POST['id'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
     $address = $_POST['address'];
     $fnpf = $_POST['fnpf'];
     $tin = $_POST['tin'];
@@ -24,88 +32,89 @@ if(isset($_POST['registerBtn'])){
     $dob = $_POST['dob'];
     $email = $_POST['email'];
     $position = $_POST['position'];
-    $wages=$_POST['wages'];
-    $reporting=$_POST['reporting'];
+    $wages = $_POST['wages'];
+    $reporting = $_POST['reporting'];
     // $location = $_POST['location'];
     $start_date = $_POST['start_date'];
-    $end_date=$_POST['end_date'];
+    $end_date = $_POST['end_date'];
     $status = ' ';
-    $gender = $_POST['gender']; 
-    $marital_status	= $_POST['marital_status']; 
-    $how=$_POST['hoursofwork'];
-    $lunch=$_POST['lunch'];
+    $gender = $_POST['gender'];
+    $marital_status = $_POST['marital_status'];
+    $how = $_POST['hoursofwork'];
+    $lunch = $_POST['lunch'];
     global $head;
-    if($department == 'Carpenters Finance'){
-        $head ="assets\images\Finance.png";
-    }else if($department == 'Carpenters HO'){
-        $head="assets\images\Finance.png";
-    }else if($department == 'Carpenters Motors'){
-        $head="assets\images\Motors.png";
-    }else if($department == 'Carpenters Shipping'){
-        $head='assets\images\Shipping.png';
-    }else if($department == 'IMEL'){
-        $head="assets\images\IMEL.png";
-    }else if($department == 'MH'){
-        $head="assets\images\MH.png";   
-    }else if($department == 'Carpenters Waters'){
-        $head="assets\images\Waters.png";
-    }else if($department == 'Carpenters Properties'){
-        $head="assets\images\Properties.png";
-    }else if($department == 'Carptrac'){
-        $head="assets\images\Carptrac.png";
-    }else if($department == 'One Stop Trading'){
-        $head="assets\images\One Stop Trading.png";
+    if ($department == 'Carpenters Finance') {
+        $head = "assets\images\Finance.png";
+    } else if ($department == 'Carpenters HO') {
+        $head = "assets\images\Finance.png";
+    } else if ($department == 'Carpenters Motors') {
+        $head = "assets\images\Motors.png";
+    } else if ($department == 'Carpenters Shipping') {
+        $head = 'assets\images\Shipping.png';
+    } else if ($department == 'IMEL') {
+        $head = "assets\images\IMEL.png";
+    } else if ($department == 'MH') {
+        $head = "assets\images\MH.png";
+    } else if ($department == 'Carpenters Waters') {
+        $head = "assets\images\Waters.png";
+    } else if ($department == 'Carpenters Properties') {
+        $head = "assets\images\Properties.png";
+    } else if ($department == 'Carptrac') {
+        $head = "assets\images\Carptrac.png";
+    } else if ($department == 'One Stop Trading') {
+        $head = "assets\images\One Stop Trading.png";
     }
-   
-//pdf start
-class PDF extends FPDF{
-    
-    function Header(){
-        global $head;
-      //Display Header Content, if page number eqaul 1
-      if ($this->PageNo() == 1 ) {
-        
-        //Header Content
-        $this->Image($head,0,0);
 
-        // $this->Line(0,30,210,30);
-      
-      }
-      else{
-
-      }
-      if (!$this->skipHeader) {
-        // ...
-    }
-    }
-    function Footer()
+    //pdf start
+    class PDF extends FPDF
     {
-        $this->SetY(-15);
-        $this->SetFont('Arial','I',8);
-        //Page number
-        $pagenumber = '{nb}';
-        if($this->PageNo() == $pagenumber){
-            $this->Cell(173,10, ' FOOTER TEST  -  '.$pagenumber, 0, 0);
+
+        function Header()
+        {
+            global $head;
+            //Display Header Content, if page number eqaul 1
+            if ($this->PageNo() == 1) {
+
+                //Header Content
+                $this->Image($head, 0, 0);
+
+                // $this->Line(0,30,210,30);
+
+            } else {
+
+            }
+            // if (!$this->skipHeader) {
+                // ...
+            //}
         }
+        function Footer()
+        {
+            $this->SetY(-15);
+            $this->SetFont('Arial', 'I', 8);
+            //Page number
+            $pagenumber = '{nb}';
+            if ($this->PageNo() == $pagenumber) {
+                $this->Cell(173, 10, ' FOOTER TEST  -  ' . $pagenumber, 0, 0);
+            }
+        }
+
+
+
     }
+    $pdf = new PDF();
 
-    
-
-}
-$pdf = new PDF();
-
-$pdf->SetMargins(10,60,10);
-$pdf->AliasNbPages();
-$pdf->AddPage();
+    $pdf->SetMargins(10, 60, 10);
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
 
 
 
-//set font to arial, bold, 14pt
-$pdf->SetFont('Arial','B',11);
+    //set font to arial, bold, 14pt
+    $pdf->SetFont('Arial', 'B', 11);
 
-//Cell(width , height , text , border , end line , [align] )
+    //Cell(width , height , text , border , end line , [align] )
 
-   
+
     // $pdf->Image('elaadmin-master\images\carp.png',10,5,50,0);
     // $pdf->images('mh_logo.jpeg',80,5,50,0);
     // $pdf->Ln(); 
@@ -123,7 +132,6 @@ $pdf->SetFont('Arial','B',11);
     // $pdf->Cell(120,5,'','',0,'L');
     // $pdf->Cell(40,5,'SERVICE CHARGE RATE','',0,'R');
     // $pdf->Ln();
- 
 
 
 
@@ -133,173 +141,525 @@ $pdf->SetFont('Arial','B',11);
 
 
 
-// $pdf->Cell(190	,5,'CARPENTERS WATERS (FIJI) PTE LIMITED',0,0);
+
+    // $pdf->Cell(190	,5,'CARPENTERS WATERS (FIJI) PTE LIMITED',0,0);
 // $pdf->Cell(130	,5,'',0,1);//end of line
 
-// $pdf->Cell(189	,10,'',0,1);//end of line
+    // $pdf->Cell(189	,10,'',0,1);//end of line
 
 
-// $pdf->Cell(100	,5,'34 Rodwell Road, Suva, Fiji, GPO Box 299 Suva, Fiji',0,1);
-$pdf->Cell(100	,5,'',0,1);//end of line
+    // $pdf->Cell(100	,5,'34 Rodwell Road, Suva, Fiji, GPO Box 299 Suva, Fiji',0,1);
+    $pdf->Cell(100, 5, '', 0, 1); //end of line
 //set font to arial, regular, 12pt
-$pdf->SetFont('Arial','',12);
+    $pdf->SetFont('Arial', '', 12);
 
-$pdf->Cell(130	,5,"$current",0,0);
-$pdf->Cell(59	,5,'',0,1);//end of line
+    $pdf->Cell(130, 5, "$current", 0, 0);
+    $pdf->Cell(59, 5, '', 0, 1); //end of line
 
-$pdf->Cell(189	,10,'',0,1);//end of line
-
-
-
-$pdf->Cell(130	,5,"$name",0,0);
-$pdf->Cell(34	,5,'',0,1);//end of line
-
-$pdf->Cell(130	,5,"$address",0,0);
-$pdf->Cell(34	,5,'',0,1);//end of line
-
-$pdf->Ln();//end of line
-
-$pdf->Cell(130	,5,"Dear $fname $lname",0,0);
-$pdf->Cell(34	,5,'',0,1);//end of line
-
-$pdf->Cell(189	,10,'',0,1);//end of line
-
-$pdf->Cell(130	,5,'We have much pleasure in confirming the following terms and conditions of your employment subject to',0,0);
-$pdf->Cell(34	,5,'',0,1);//end of line
-
-$pdf->Cell(130	,5,'the under-mentioned:',0,0);
-$pdf->Cell(34	,5,'',0,1);//end of line
+    $pdf->Cell(189, 10, '', 0, 1); //end of line
 
 
-// //make a dummy empty cell as a vertical spacer
-$pdf->Cell(189	,10,'',0,1);//end of line
 
-// $pdf->Cell(130,5,'Position:');$pdf->Cell(120	,5,'The position offered to you is General Worker on a flexi time basis');
+    $pdf->Cell(130, 5, "$name", 0, 0);
+    $pdf->Cell(34, 5, '', 0, 1); //end of line
+
+    $pdf->Cell(130, 5, "$address", 0, 0);
+    $pdf->Cell(34, 5, '', 0, 1); //end of line
+
+    $pdf->Ln(); //end of line
+
+    $pdf->Cell(130, 5, "Dear $fname $lname", 0, 0);
+    $pdf->Cell(34, 5, '', 0, 1); //end of line
+
+    $pdf->Cell(189, 10, '', 0, 1); //end of line
+
+    $pdf->Cell(130, 5, 'We have much pleasure in confirming the following terms and conditions of your employment subject to', 0, 0);
+    $pdf->Cell(34, 5, '', 0, 1); //end of line
+
+    $pdf->Cell(130, 5, 'the under-mentioned:', 0, 0);
+    $pdf->Cell(34, 5, '', 0, 1); //end of line
+
+
+    // //make a dummy empty cell as a vertical spacer
+    $pdf->Cell(189, 10, '', 0, 1); //end of line
+
+    // $pdf->Cell(130,5,'Position:');$pdf->Cell(120	,5,'The position offered to you is General Worker on a flexi time basis');
 // $pdf->Cell(130,5,'The position offered to you is General Worker on a flexi time basis');
 // $pdf->Cell(34,5);//end of line
 
-// // $pdf->Cell(80,5,'',0,0);
+    // // $pdf->Cell(80,5,'',0,0);
 // $pdf->Cell(130	,5,'whereby you shall attend work as and when required.',0,0);
 // $pdf->Cell(34	,5,'',0,1);//end of line
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Position:','',0,'L',);$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"The position offered to you is $position on a flexi time basis",'',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'whereby you shall attend work as and when required.','',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Position:', '', 0, 'L', );
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, "The position offered to you is $position on a flexi time basis", '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'whereby you shall attend work as and when required.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->SetFont('Arial','B',11);	
-$pdf->Cell(40,5,'Commencement:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"Your appointment will be effective from $start_date till ",'',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5," $end_date",'',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Commencement:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, "Your appointment will be effective from $start_date till ", '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, " $end_date", '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Termination:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'We will issue you a 24 hours termination notice should we find your','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'services unsatisfactory during this period.','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Wage:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"Your wage will be $ $wages per hour.",'',0,'L');$pdf->Ln();$pdf->Ln();
-// $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'services unsatisfactory during this period.','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,'Reporting:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,"You will Report to $reporting ",'',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Termination:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'We will issue you a 24 hours termination notice should we find your', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'services unsatisfactory during this period.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Wage:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, "Your wage will be $ $wages per hour.", '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    // $pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'services unsatisfactory during this period.','',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Reporting:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, "You will Report to $reporting ", '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Responsibilities:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'You will be notified of your job responsibilities upon commencement of','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'your employment.','',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Responsibilities:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'You will be notified of your job responsibilities upon commencement of', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'your employment.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->Cell(40,5,'','',0,'L');$pdf->Cell(60,5,'You are expected to perform your job description and duties diligently and','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'to use your best endeavours to promote the interests of the employer in','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'doing so.','',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->Cell(40, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'You are expected to perform your job description and duties diligently and', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'to use your best endeavours to promote the interests of the employer in', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'doing so.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Fiji National Provident','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(60,5,'You (and the Company) will be required to contribute to the Fiji National','',0,'L');$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(20,5,'Fund:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(60,5,'Provident Fund in accordance with the provisions of the FNPF Act.','',0,'L');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Fiji National Provident', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'You (and the Company) will be required to contribute to the Fiji National', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(20, 5, 'Fund:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Provident Fund in accordance with the provisions of the FNPF Act.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
 
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Disciplinary Procedure:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(60,5,'The employers disciplinary procedure is contained in full in the Staff','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(60,5,'Handbook and is summarised as follows: -','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'a)','',0,'L');$pdf->Cell(60,5,'if an employee acts inappropriately or unacceptably;','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->SetFont('Times', '');$pdf->Cell(7,5,'I','',0,'L');$pdf->SetFont('Arial', '');$pdf->Cell(60,5,'the employee may be summarily dismissed and will not be','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->SetFont('Times', '');$pdf->Cell(7,5,'','',0,'L');$pdf->SetFont('Arial', '');$pdf->Cell(60,5,'entitled to payment in lieu of notice;','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->SetFont('Times', '');$pdf->Cell(7,5,'II','',0,'L');$pdf->SetFont('Arial', '');$pdf->Cell(60,5,'the employee may: -','',0,'L');$pdf->Ln();$pdf->Ln();$pdf->Ln();$pdf->Ln();
-
-
-//add island chill logo and address
-
-
-
-$pdf->AddPage();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'A.','',0,'L');$pdf->Cell(60,5,'be given a first written warning for a first offence','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'B.','',0,'L');$pdf->Cell(60,5,'be given a final written warning for a second offence','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'C.','',0,'L');$pdf->Cell(60,5,'may then have an explanation interview with his/her','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'manager','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'D','',0,'L');$pdf->Cell(60,5,'may have a further interview in which his/her','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(12,5,'','',0,'L');$pdf->Cell(19,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'employment is terminated.','',0,'L');$pdf->Ln();$pdf->Ln();
-
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'b)','',0,'L');$pdf->Cell(60,5,'No warning will be held against an employee for more than 12','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'months.','',0,'L');$pdf->Ln();$pdf->Ln();
-
-
-//add bullet points
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Summary Dismissal:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'The employer may summarily dismiss the employee without notice: -','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'where the employee is guilty of gross misconduct;','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'for willful disobedience to lawful orders given by the employer;','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'for lack of skill or qualification which the employee expressly or by','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'implication warranted to possess;','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'for habitual or substantial neglect of the employees duties; or','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'for habitual or substantial neglect of the employees duties; or','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'for continual or habitual absence from work without the','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'permission of the employer and without other reasonable excuse.','',0,'L');$pdf->Ln();$pdf->Ln();
-//
-
-$pdf->SetFont('Arial','B',11);
-$pdf->Cell(40,5,'Grievance Handling','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'The employers grievance handling procedure is contained in full in','',0,'L');$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,'Procedure:','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'the Staff Handbook, and is summarised as follows:','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'a)','',0,'L');$pdf->Cell(60,5,'if an employee has a grievance, dispute or matter to raise with the','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'employer, she/he should approach his/her immediate supervisor or','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'foreman who will endeavour to settle the matter;','',0,'L');$pdf->Ln();
-
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'b)','',0,'L');$pdf->Cell(60,5,'if the matter is unsettled within 24 hours, the employee may bring','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'the matter to the attention of the Divisional General Manager or','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'Departmental Manager who will endeavour to settle the matter;','',0,'L');$pdf->Ln();$pdf->Ln();
-
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'c)','',0,'L');$pdf->Cell(60,5,'if the matter is unsettled within 24 hours, the employee may bring','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'the matter to the attention of the Managing Director or his','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'representative;','',0,'L');$pdf->Ln();$pdf->Ln();
-
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'d)','',0,'L');$pdf->Cell(60,5,'if the matter is not settled within two weeks of the date of referral','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'to the Managing Director, the grievance may be referred to','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'mediation in the Mediation Unit established under the Employment','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'Relations Promulgation 2007. The employee must first exhaust the','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'internal appeal procedures before the grievance is referred to','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(5,5,'','',0,'L');$pdf->Cell(7,5,'','',0,'L');$pdf->Cell(60,5,'mediation.','',0,'L');$pdf->Ln();$pdf->Ln();
-
-
-$pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,'Force Majeure','',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'The employee understands and agrees that their job may end without','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'notice, or payment in lieu of notice, if a natural disaster, workplace fire,','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'flood, explosion, pandemic, strikes, labour disputes, war, riot, national,','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'emergency or other similar major events described as Acts of God which,','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,"are beyond the employer's control occur, making it impossible for",'',0,'L');$pdf->Ln();;$pdf->Ln();;$pdf->Ln();$pdf->Ln();
-
-$pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,"Employee's",'',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'The employee has read and agreed with the terms and conditions of ','',0,'L');$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(40,5,"Acceptance:",'',0,'L');$pdf->SetFont('Arial','',11);$pdf->Cell(60,5,'employment agreement and the Staff Handbook.  ','',0,'L');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'The employee acknowledges that he or she has received a copy of this','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'agreement and the Staff Handbook and by signing this agreement accepts ','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'that he or she has read, understand and agreed to the terms of this Contract ','',0,'L');$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'and the Staff Handbook. ','',0,'L');$pdf->Ln();$pdf->Ln();$pdf->Ln();
-
-
-
-
-$pdf->Cell(40,5,'We extend to you a very warm welcome and trust that you will find a worthwhile and rewarding career with us.',0,'L');;$pdf->Ln();$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,"DATED this $date day of $month, $year.");$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'I accept employment on the above terms.');$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','',11);$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Signature of employee _____________________');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'In the presence of ________________________');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Signature of employer ______________________');$pdf->Ln();$pdf->Ln();
-$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'For and on behalf of CARPENTERS FIJI PTE LIMITED');$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','B',11);$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'Pawan Sharma - Head of Group Human Resources');$pdf->Ln();$pdf->Ln();
-$pdf->SetFont('Arial','',11);$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(20,5,'','',0,'L');$pdf->Cell(60,5,'In the presence of ________________________');$pdf->Ln();$pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Disciplinary Procedure:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'The employers disciplinary procedure is contained in full in the Staff', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Handbook and is summarised as follows: -', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'a)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'if an employee acts inappropriately or unacceptably;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->SetFont('Times', '');
+    $pdf->Cell(7, 5, 'I', '', 0, 'L');
+    $pdf->SetFont('Arial', '');
+    $pdf->Cell(60, 5, 'the employee may be summarily dismissed and will not be', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->SetFont('Times', '');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->SetFont('Arial', '');
+    $pdf->Cell(60, 5, 'entitled to payment in lieu of notice;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->SetFont('Times', '');
+    $pdf->Cell(7, 5, 'II', '', 0, 'L');
+    $pdf->SetFont('Arial', '');
+    $pdf->Cell(60, 5, 'the employee may: -', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Ln();
 
 
-$pdf->Output();
+    //add island chill logo and address
 
-//pdf end
+
+
+    $pdf->AddPage();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'A.', '', 0, 'L');
+    $pdf->Cell(60, 5, 'be given a first written warning for a first offence', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'B.', '', 0, 'L');
+    $pdf->Cell(60, 5, 'be given a final written warning for a second offence', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'C.', '', 0, 'L');
+    $pdf->Cell(60, 5, 'may then have an explanation interview with his/her', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'manager', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'D', '', 0, 'L');
+    $pdf->Cell(60, 5, 'may have a further interview in which his/her', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(12, 5, '', '', 0, 'L');
+    $pdf->Cell(19, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'employment is terminated.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'b)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'No warning will be held against an employee for more than 12', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'months.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+
+
+    //add bullet points
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Summary Dismissal:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'The employer may summarily dismiss the employee without notice: -', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'where the employee is guilty of gross misconduct;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'for willful disobedience to lawful orders given by the employer;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'for lack of skill or qualification which the employee expressly or by', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'implication warranted to possess;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'for habitual or substantial neglect of the employees duties; or', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'for habitual or substantial neglect of the employees duties; or', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'for continual or habitual absence from work without the', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'permission of the employer and without other reasonable excuse.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    //
+
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Grievance Handling', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'The employers grievance handling procedure is contained in full in', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Procedure:', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'the Staff Handbook, and is summarised as follows:', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'a)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'if an employee has a grievance, dispute or matter to raise with the', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'employer, she/he should approach his/her immediate supervisor or', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'foreman who will endeavour to settle the matter;', '', 0, 'L');
+    $pdf->Ln();
+
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'b)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'if the matter is unsettled within 24 hours, the employee may bring', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'the matter to the attention of the Divisional General Manager or', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Departmental Manager who will endeavour to settle the matter;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'c)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'if the matter is unsettled within 24 hours, the employee may bring', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'the matter to the attention of the Managing Director or his', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'representative;', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, 'd)', '', 0, 'L');
+    $pdf->Cell(60, 5, 'if the matter is not settled within two weeks of the date of referral', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'to the Managing Director, the grievance may be referred to', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'mediation in the Mediation Unit established under the Employment', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Relations Promulgation 2007. The employee must first exhaust the', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'internal appeal procedures before the grievance is referred to', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(5, 5, '', '', 0, 'L');
+    $pdf->Cell(7, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'mediation.', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+
+
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, 'Force Majeure', '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'The employee understands and agrees that their job may end without', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'notice, or payment in lieu of notice, if a natural disaster, workplace fire,', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'flood, explosion, pandemic, strikes, labour disputes, war, riot, national,', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'emergency or other similar major events described as Acts of God which,', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, "are beyond the employer's control occur, making it impossible for", '', 0, 'L');
+    $pdf->Ln();
+    ;
+    $pdf->Ln();
+    ;
+    $pdf->Ln();
+    $pdf->Ln();
+
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, "Employee's", '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'The employee has read and agreed with the terms and conditions of ', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(40, 5, "Acceptance:", '', 0, 'L');
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(60, 5, 'employment agreement and the Staff Handbook.  ', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'The employee acknowledges that he or she has received a copy of this', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'agreement and the Staff Handbook and by signing this agreement accepts ', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'that he or she has read, understand and agreed to the terms of this Contract ', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'and the Staff Handbook. ', '', 0, 'L');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Ln();
+
+
+
+
+    $pdf->Cell(40, 5, 'We extend to you a very warm welcome and trust that you will find a worthwhile and rewarding career with us.', 0, 'L');
+    ;
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, "DATED this $date day of $month, $year.");
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'I accept employment on the above terms.');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Signature of employee _____________________');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'In the presence of ________________________');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Signature of employer ______________________');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'For and on behalf of CARPENTERS FIJI PTE LIMITED');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'Pawan Sharma - Head of Group Human Resources');
+    $pdf->Ln();
+    $pdf->Ln();
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, '', '', 0, 'L');
+    $pdf->Cell(60, 5, 'In the presence of ________________________');
+    $pdf->Ln();
+    $pdf->Ln();
+
+
+    $pdf->Output();
+
+    //pdf end
 
 
 
@@ -317,7 +677,7 @@ $pdf->Output();
     //         if($password == $cpassword){
     //             $query = "INSERT INTO users (username,usr_password,usr_email,usr_location,usr_role,usr_status) VALUES ('$username','$password','$email','$location','$role','1')";
     //             $result2=mysqli_query($conn,$query);
-        
+
     //             if($result2){
     //                 echo "<script>alert('User Created')</script>";
     //                 header('Location:users.php');
@@ -341,34 +701,129 @@ $pdf->Output();
     //     header('Location:users.php');
     // }
 
-    //API
-    $final_position=str_replace("_",' ',$position);
-    $final_dob=str_replace(".",'/',$dob);
-    $curl = curl_init();
 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/0002/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "GET",
-  CURLOPT_HTTPHEADER => array(
-    "cache-control: no-cache"
-  ),
-));
+    //fetch temp id from table
+    $server = 'localhost';
+    $user='root';
+    $pass='';
+    $database ='hrms';
+    
+    $conn =mysqli_connect($server,$user,$pass,$database);
 
-$response = curl_exec($curl);
-$err = curl_error($curl);
-$masterid=$response;
-echo $response;
-curl_close($curl);
+
+    
+                       //if (!$result && !$result1) {
+                         // echo"<script>alert('Wow! User Registration Completed.')</script>";
+                        //  echo"<script>alert('Woops! Something went wrong.')</script>";
+                      //} else { 
+              // //           // echo"<script>alert('Woops! Something went wrong.')</script>";
+                       //   echo"<script>alert('Wow! Submitted Successfully.')</script>";
+                      //}
+
+
+
+
+    $tid = $conn->query("SELECT MAX(counter) as counter from temp_id");
+    //$tid1 = mysqli_query($conn,$tid);
+    while ($t = $tid->fetch_assoc()) {
+        $t1 = $t["counter"];
+    
+        if($t1 != ''){
+            $t1 = $t1 + 1;
+            $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
+            $inid1 = mysqli_query($conn,$inid);
+
+            //$conn1 =mysqli_connect($server,$user,$pass,$database);
+            $sql = "INSERT INTO employees(masterid, name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
+            $result = mysqli_query($conn, $sql);
+            
+            $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
+            $result1 = mysqli_query($conn, $sql1);
+
+
+
+            //API
+            $final_position = str_replace("_", ' ', $position);
+            $final_dob = str_replace(".", '/', $dob);
+            $curl = curl_init();
+            $final_position = strtoupper($final_position);
+            $lname = strtoupper($lname);
+            $fname = strtoupper($fname);
+            $fnpf = strtoupper($fnpf);
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "cache-control: no-cache"
+                ),
+            )
+            );
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            $masterid = $response;
+            echo $response;
+            curl_close($curl);
+
+        }
+
+        else{
+            $t1 = "1001";
+            $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
+            $inid1 = mysqli_query($conn,$inid);
+            
+            $sql = "INSERT INTO employees ('masterid', name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
+            $result = mysqli_query($conn, $sql);
+        
+            $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
+            $result1 = mysqli_query($conn, $sql1);
+
+            //API
+            $final_position = str_replace("_", ' ', $position);
+            $final_dob = str_replace(".", '/', $dob);
+            $curl = curl_init();
+            $final_position = strtoupper($final_position);
+            $lname = strtoupper($lname);
+            $fname = strtoupper($fname);
+            $fnpf = strtoupper($fnpf);
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "cache-control: no-cache"
+                ),
+            )
+            );
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            $masterid = $response;
+            echo $response;
+            curl_close($curl);
+
+        }
     
 
-}
-// if(isset($_POST['submitbtn'])) {
-  
-  
-//     $name= $_POST['name'];
+
+    }
+
+
+    
+
+
+
+    // if(isset($_POST['submitbtn'])) {
+
+
+    //     $name= $_POST['name'];
 //     $address = $_POST['address'];
 //     $fnpf = $_POST['fnpf'];
 //     $tin = $_POST['tin'];
@@ -376,37 +831,38 @@ curl_close($curl);
 //     $dob = $_POST['dob'];
 //     $email = $_POST['email'];
 //     $position = $_POST['position'];
-//     $location = $_POST['location'];
+//    $location = $_POST['location'];
 //     $start_date = $_POST['start_date'];
 //     $status = ' ';
 //     $gender = $_POST['gender']; 
 //     $marital_status	= $_POST['marital_status']; 
 //     $id  = $_POST['id']; 
-    
-   
-//     echo"<script>$name</script>";
-    
-   
-  
-  
-// //   $sql = "INSERT INTO employees ('masterid', 'name', 'address', 'dob', 'fnpf', 'tin', 'email', 'location', 'department', 'position', 'start_date', 'status', 'gender', 'marital_status')
-    
-// //           VALUES('$masterid','$name','$address','$dob','$fnpf','$tin','$email','$location','$department','$position','$start_date','$status','$gender','$marital_status')";
-    
-  
-  
-  
-// //         $result = mysqli_query($conn, $sql);
-// //         if (!$result) {
-// //           // echo"<script>alert('Wow! User Registration Completed.')</script>";
-// //            echo"<script>alert('Woops! Something went wrong.')</script>";
-// //        } else { 
-// //           // echo"<script>alert('Woops! Something went wrong.')</script>";
-// //            echo"<script>alert('Wow! Submitted Successfully.')</script>";
-// //        }
-// }
-  
-  
+
+
+    //     echo"<script>$name</script>";
+
+
+
+
+       /*$sql = "INSERT INTO employees ('masterid', 'name', 'address', 'dob', 'fnpf', 'tin', 'email', 'location', 'department', 'position', 'start_date', 'status', 'gender', 'marital_status')
+
+             VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
+
+             $result = mysqli_query($conn, $sql);
+
+    $sql1 = "INSER INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination)
+                                values('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
+                                $result1 = mysqli_query($conn, $sql1);
+                                if (!$result && !$result1) {
+                                  // echo"<script>alert('Wow! User Registration Completed.')</script>";
+                                   echo"<script>alert('Woops! Something went wrong.')</script>";
+                               } else { 
+                       // //           // echo"<script>alert('Woops! Something went wrong.')</script>";
+                                   echo"<script>alert('Wow! Submitted Successfully.')</script>";
+                               }*/
+}
+
+ 
 ?>
 
 
