@@ -487,97 +487,107 @@ $pdf->Output();
 
 
 
-   $tid = $conn->query("SELECT MAX(counter) as counter from temp_id");
-   //$tid1 = mysqli_query($conn,$tid);
-   while ($t = $tid->fetch_assoc()) {
-       $t1 = $t["counter"];
-   
-       if($t1 != ''){
-           $t1 = $t1 + 1;
-           $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
-           $inid1 = mysqli_query($conn,$inid);
-
-           //$conn1 =mysqli_connect($server,$user,$pass,$database);
-           $sql = "INSERT INTO employees(masterid, name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
-           $result = mysqli_query($conn, $sql);
-           
-           $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
-           $result1 = mysqli_query($conn, $sql1);
-
-
-
-           //API
-           $final_position = str_replace("_", ' ', $position);
-           $final_dob = str_replace(".", '/', $dob);
-           $curl = curl_init();
-           $final_position = strtoupper($final_position);
-           $lname = strtoupper($lname);
-           $fname = strtoupper($fname);
-           $fnpf = strtoupper($fnpf);
-
-           curl_setopt_array($curl, array(
-               CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
-               CURLOPT_RETURNTRANSFER => true,
-               CURLOPT_TIMEOUT => 30,
-               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-               CURLOPT_CUSTOMREQUEST => "GET",
-               CURLOPT_HTTPHEADER => array(
-                   "cache-control: no-cache"
-               ),
-           )
-           );
-
-           $response = curl_exec($curl);
-           $err = curl_error($curl);
-           $masterid = $response;
-           echo $response;
-           curl_close($curl);
-
-       }
-
-       else{
-           $t1 = "1001";
-           $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
-           $inid1 = mysqli_query($conn,$inid);
-           
-           $sql = "INSERT INTO employees ('masterid', name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
-           $result = mysqli_query($conn, $sql);
-       
-           $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
-           $result1 = mysqli_query($conn, $sql1);
-
-           //API
-           $final_position = str_replace("_", ' ', $position);
-           $final_dob = str_replace(".", '/', $dob);
-           $curl = curl_init();
-           $final_position = strtoupper($final_position);
-           $lname = strtoupper($lname);
-           $fname = strtoupper($fname);
-           $fnpf = strtoupper($fnpf);
-
-           curl_setopt_array($curl, array(
-               CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
-               CURLOPT_RETURNTRANSFER => true,
-               CURLOPT_TIMEOUT => 30,
-               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-               CURLOPT_CUSTOMREQUEST => "GET",
-               CURLOPT_HTTPHEADER => array(
-                   "cache-control: no-cache"
-               ),
-           )
-           );
-
-           $response = curl_exec($curl);
-           $err = curl_error($curl);
-           $masterid = $response;
-           echo $response;
-           curl_close($curl);
-
-       }
-   
-
-
-   }
+                     $sql5="SELECT wagerate FROM rate WHERE id=(SELECT max(id) FROM rate)";
+                     $result6=mysqli_query($conn,$sql5);
+                     $row3 = mysqli_fetch_assoc($result6);
+                     foreach ($row3 as $r) {
+                       if($r>$wages){
+                           echo"<script>alert('Woops! wage rate cant be lower than Minimum Wage Rate (Min Rate: $ .$r.)')</script>";
+                       }
+                       else{
+                           $tid = $conn->query("SELECT MAX(counter) as counter from temp_id");
+                           //$tid1 = mysqli_query($conn,$tid);
+                           while ($t = $tid->fetch_assoc()) {
+                               $t1 = $t["counter"];
+                           
+                               if($t1 != ''){
+                                   $t1 = $t1 + 1;
+                                   $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
+                                   $inid1 = mysqli_query($conn,$inid);
+                       
+                                   //$conn1 =mysqli_connect($server,$user,$pass,$database);
+                                   $sql = "INSERT INTO employees(masterid, name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
+                                   $result = mysqli_query($conn, $sql);
+                                   
+                                   $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
+                                   $result1 = mysqli_query($conn, $sql1);
+                       
+                       
+                       
+                                   //API
+                                   $final_position = str_replace("_", ' ', $position);
+                                   $final_dob = str_replace(".", '/', $dob);
+                                   $curl = curl_init();
+                                   $final_position = strtoupper($final_position);
+                                   $lname = strtoupper($lname);
+                                   $fname = strtoupper($fname);
+                                   $fnpf = strtoupper($fnpf);
+                       
+                                   curl_setopt_array($curl, array(
+                                       CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
+                                       CURLOPT_RETURNTRANSFER => true,
+                                       CURLOPT_TIMEOUT => 30,
+                                       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                       CURLOPT_CUSTOMREQUEST => "GET",
+                                       CURLOPT_HTTPHEADER => array(
+                                           "cache-control: no-cache"
+                                       ),
+                                   )
+                                   );
+                       
+                                   $response = curl_exec($curl);
+                                   $err = curl_error($curl);
+                                   $masterid = $response;
+                                   echo $response;
+                                   curl_close($curl);
+                       
+                               }
+                       
+                               else{
+                                   $t1 = "1001";
+                                   $inid = "INSERT INTO temp_id(counter)VALUES('$t1')";
+                                   $inid1 = mysqli_query($conn,$inid);
+                                   
+                                   $sql = "INSERT INTO employees ('masterid', name, address, dob, fnpf, tin, email, location, department, position, start_date, status, gender, marital_status) VALUES('$masterid','$fname $lname','$address','$dob','$fnpf','$tin','$email','$department','$department','$position','$start_date','$status','$gender','$marital_status')";
+                                   $result = mysqli_query($conn, $sql);
+                               
+                                   $sql1 = "INSERT INTO digi_contracts(contract_type, contract_date, creater, emp_masterid, emp_name, emp_address, emp_position, emp_commence_date, emp_salary, emp_probation, emp_reporting, emp_holidays, emp_sickleaves, emp_termination) VALUES('S','$current','','$masterid','$fname $lname','$address','$position','$start_date','$wages','','$reporting','','','')";
+                                   $result1 = mysqli_query($conn, $sql1);
+                       
+                                   //API
+                                   $final_position = str_replace("_", ' ', $position);
+                                   $final_dob = str_replace(".", '/', $dob);
+                                   $curl = curl_init();
+                                   $final_position = strtoupper($final_position);
+                                   $lname = strtoupper($lname);
+                                   $fname = strtoupper($fname);
+                                   $fnpf = strtoupper($fnpf);
+                       
+                                   curl_setopt_array($curl, array(
+                                       CURLOPT_URL => "http://10.30.1.4:20012/api/CREATEEMP/$t/$lname/$fname/$final_dob/$tin/$fnpf/$final_position/S",
+                                       CURLOPT_RETURNTRANSFER => true,
+                                       CURLOPT_TIMEOUT => 30,
+                                       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                       CURLOPT_CUSTOMREQUEST => "GET",
+                                       CURLOPT_HTTPHEADER => array(
+                                           "cache-control: no-cache"
+                                       ),
+                                   )
+                                   );
+                       
+                                   $response = curl_exec($curl);
+                                   $err = curl_error($curl);
+                                   $masterid = $response;
+                                   echo $response;
+                                   curl_close($curl);
+                       
+                               }
+                           
+                       
+                       
+                           }
+                       }
+                   }
 }
 // if(isset($_POST['submitbtn'])) {
   
