@@ -3,6 +3,7 @@
 include 'connect.php';
 error_reporting(0);
 session_start();
+// echo $_SESSION['username'];
 if(isset($_POST['submit'])){
     $username = $_POST['username'];
     $password = md5($_POST['password']);

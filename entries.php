@@ -1,6 +1,10 @@
 <?php
 $page ='users';
 session_start();
+if (!isset($_SESSION['username'])){
+    header("Location: login.php");
+}
+echo $_SESSION['username'];
 include 'connect.php';
 $sql = "SELECT * FROM users ";
 $result = mysqli_query($conn,$sql);
