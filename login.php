@@ -3,6 +3,7 @@
 include 'connect.php';
 error_reporting(0);
 session_start();
+// echo $_SESSION['username'];
 if(isset($_POST['submit'])){
     $username = $_POST['username'];
     $password = md5($_POST['password']);
@@ -14,7 +15,7 @@ if(isset($_POST['submit'])){
         $_SESSION['username'] = $row['username'];
         $_SESSION['usr_role'] = $row['usr_role'];
         if($_SESSION['usr_role'] == 'admin'){
-            header('Location: index.php');
+            header('Location: entries.php');
         }
         elseif($_SESSION['usr_role'] == 'employee'){
             header('Location: index.php');
