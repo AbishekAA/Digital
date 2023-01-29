@@ -14,7 +14,7 @@ if(isset($_POST['submit'])){
         $_SESSION['username'] = $row['username'];
         $_SESSION['usr_role'] = $row['usr_role'];
         if($_SESSION['usr_role'] == 'admin'){
-            header('Location: index.php');
+            header('Location: entries.php');
         }
         elseif($_SESSION['usr_role'] == 'employee'){
             header('Location: index.php');
@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
     <div class="container">
         
     
-        <img src="assets/site-logo.svg" >
+        <img src="assets/carpenters-logo.jpg" style="width:100px;height:100px">
         <form action="" method="POST" class="login-username">
             <p class="login-text">Login</p>
             <div class="input-group">

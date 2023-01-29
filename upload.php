@@ -1,6 +1,20 @@
 <?php
 include_once 'connect.php';
 session_start(); 
+
+    $username = $_SESSION['username'];
+    //$password = md5($_POST['password']);
+    // $password = $_POST['password'];
+    // $sql = "SELECT * FROM users WHERE username='$username' AND usr_password='$password'";
+    // $result = mysqli_query($conn,$sql);
+    // if($result->num_rows >0){
+        // $row= mysqli_fetch_assoc($result);
+        // $_SESSION['username'] = $row['username'];
+        // $_SESSION['usr_role'] = $row['usr_role'];
+        if($_SESSION['username'] == null){
+            header('Location: login.php');
+        }
+
 $masterid = $_SESSION['masterid'];
 
 

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('fpdf.php');
 
 //A4 width : 219mm;

@@ -1,8 +1,22 @@
 <?php
 
-error_reporting(0);
+// error_reporting(0);
 
 session_start();
+
+    //$username = $_SESSION['username'];
+    //$password = md5($_POST['password']);
+    // $password = $_POST['password'];
+    // $sql = "SELECT * FROM users WHERE username='$username' AND usr_password='$password'";
+    // $result = mysqli_query($conn,$sql);
+    // if($result->num_rows >0){
+        // $row= mysqli_fetch_assoc($result);
+        // $_SESSION['username'] = $row['username'];
+        // $_SESSION['usr_role'] = $row['usr_role'];
+        if($_SESSION['username'] == null){
+            header('Location: login.php');
+        }
+
 include 'connect.php';
 require('fpdf.php');
 
@@ -710,31 +724,72 @@ $pdf->Output();
 </style>
 <body>
 
-<aside id="left-panel" class="left-panel">
+<?php 
+
+    if($_SESSION['usr_role'] == 'admin'){
+        ?>
+
+        <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li >
+                    <li class="active">
                         <a href="index.php"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                     </li>
-                    <li >
+                    <li class="active">
                         <a href="display.php"><i class="menu-icon fa fa-laptop"></i>Employees </a>
+                    </li>
+                    <li class="active">
+                    <a class="entries.php"><i class="menu-icon fa fa-laptop"></i>Add Employees</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Digital Contracts</a>
                         <ul class="sub-menu children dropdown-menu">                            
-                            <li class="active"><i class="fa fa-puzzle-piece"></i><a href="WagesContract.php">Wages Contract</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="WagesContract.php">Wages Contract</a></li>
                             <li><i class="fa fa-id-badge"></i><a href="salariedcontract.php">Salaried Contract</a></li>
                             <li><i class="fa fa-bars"></i><a href="whenbasiscontract.php">As and When Basis Contract</a></li>
                             <li><i class="fa fa-bars"></i><a href="TermContract.php">Term Contract</a></li>
 
                         </ul>
                     </li>
-                   
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
+
+        <?php
+    }
+    else {
+        ?>
+
+<aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="index.php"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                    </li>
+                    <li class="active">
+                        <a href="display.php"><i class="menu-icon fa fa-laptop"></i>Employees </a>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Digital Contracts</a>
+                        <ul class="sub-menu children dropdown-menu">                            
+                            <li><i class="fa fa-puzzle-piece"></i><a href="WagesContract.php">Wages Contract</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="salariedcontract.php">Salaried Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="whenbasiscontract.php">As and When Basis Contract</a></li>
+                            <li><i class="fa fa-bars"></i><a href="TermContract.php">Term Contract</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside>
+
+        <?php
+    }
+    ?>
     <!-- /#left-panel -->
     <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
@@ -742,7 +797,7 @@ $pdf->Output();
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="./"><img src="images/carp.png" alt="Logo"></a>
+                    <a class="navbar-brand" href="./"><img src="images/carp.png" alt="Logo" style="width:auto;height:25px"></a>
                     <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
@@ -835,7 +890,7 @@ $pdf->Output();
 
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a> -->
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="login.php" onclick="<?php session_destroy(); ?>"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
 
